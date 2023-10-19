@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        // https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance
+        "ms-python.vscode-pylance",
+        // https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
+        "ms-python.black-formatter",
+        // https://marketplace.visualstudio.com/items?itemName=ms-python.flake8
+        "ms-python.flake8",
+    ]
+}

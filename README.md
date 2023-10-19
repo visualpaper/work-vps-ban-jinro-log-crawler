@@ -219,6 +219,77 @@ CTRL + SHIFT + P で「Python Select Interpreter」を選択し Poetry にて作
 
 ### Library
 
+#### pydantic
+
+- poetry add pydantic  
+  ※ 型ヒントを元に Validation を行うために必要  
+  ※ Pylance は静的解析レベルで、pydantic は型を元に Validation エラーまで出してくれる。    
+
+- poetry add pydantic-settings  
+  ※ Env から設定を読み込む際に利用している。  
+  ※ 元々 pydantic V1 では不要だったが V2 から別途必要になったので入れている。
+
+<br>
+
+#### Env
+
+- poetry add python-dotenv  
+  ※ 開発時には .env ファイルを利用する。  
+  ※ テスト時には Setting を override する。  
+  ※ デプロイ時には環境変数を指定して override する。  
+  ※ gitignore より `.env` を対象にするよう変更すること。
+
+```
+# Environments
+#.env ← をコメントアウトし commit 対象とすること。
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+```
+
+<br>
+
+#### Inject
+
+- poetry add injector  
+  (参照) https://injector.readthedocs.io/en/latest/index.html  
+  ※ フレームワークに搭載されている DI 機能を利用できるなら、そちらのほうが良いと思っている。
+
+<br>
+
+### Rest Client
+
+- poetry add requests  
+  ※ Scraping を行うために必要。
+
+<br>
+
+### Parser
+
+- poetry add beautifulsoup4  
+  ※ Scraping を行うために必要。
+
+<br>
+
+### MongoDB
+
+- poetry add pymongo  
+  (参照) https://pymongo.readthedocs.io/en/stable/index.html
+
+```
+MongoDB Atlas (https://www.mongodb.com/atlas/database) 無料枠を利用
+
+Provider: AWS
+Region: Tokyo (ap-northeast-1)
+DB Cluster: ban-jinro-log-cluster
+DB: ban-jinro-log-db
+Collection
+  - tw_latest_crawled
+```
+
 <br><br>
 
 ## Build
@@ -227,4 +298,4 @@ CTRL + SHIFT + P で「Python Select Interpreter」を選択し Poetry にて作
 - poetry run task format
 - poetry run task lint
 - poetry run task test
-- poetry run python -m src.main
+- poetry run task start

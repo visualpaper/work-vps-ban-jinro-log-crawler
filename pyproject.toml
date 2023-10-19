@@ -6,6 +6,13 @@ authors = ["visualpaper"]
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4.0"
+pydantic = "^2.4.2"
+pydantic-settings = "^2.0.3"
+python-dotenv = "^1.0.0"
+injector = "^0.21.0"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+pymongo = "^4.5.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.10.0"
@@ -68,3 +75,6 @@ lint = "flake8 src tests --ignore=E203,W503 --max-line-length=88"
 # -v: テストごとの Success/Failed を表示する。
 # --cov: カバレッジを表示する。
 test = "pytest tests -s -vv --cov"
+
+# Local 実行用
+start = "python -m src.main"

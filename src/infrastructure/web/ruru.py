@@ -8,19 +8,25 @@ config = get_config()
 
 
 class RuruApiUrlFactory:
-    URL: str = "https://ruru-jinro.net/{log_number}/{village}.html"
+    URL: str = "https://ruru-jinro.net/log{log_number}/log{number}.html"
+
+    # 1000 ～ 99999 までは log/log99999
+    # 100000 ～ 199999 までは log2/log199999
+    # 200000 ～ 299999 までは log3/log299999
+    # ... のように続いていく。
+    SEPARATE_NUMBER: int = 100000
 
     def create(self, village_number: int) -> str:
         return self.URL.format(
             log_number=self._to_log_number(village_number),
-            village=self._to_village_number(village_number),
+            number=village_number,
         )
 
     def _to_log_number(self, village_number: int) -> str:
-        return ""
+        if village_number < self.SEPARATE_NUMBER:
+            return ""
 
-    def _to_village_number(self, village_number: int) -> str:
-        return ""
+        return str((village_number // self.SEPARATE_NUMBER) + 1)
 
 
 class RuruApi:

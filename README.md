@@ -291,6 +291,9 @@ Region: Tokyo (ap-northeast-1)
 DB Cluster: ban-jinro-log-cluster
 DB: ban-jinro-log-db
 Collection
+  - td_village
+    - Index:
+      - { "villageNumber": 1 }, { unique: true }
   - tw_latest_crawled
     ※ 事前に 1 レコードを登録し、1 レコードがある前提で動作させている。
     > {"_id":{"$oid":"6534bebb95d323df1bfafaee"},"value":{"$numberInt":"2"}}

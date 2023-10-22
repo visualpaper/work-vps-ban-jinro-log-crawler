@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List
 
 from injector import inject
@@ -8,6 +7,7 @@ from src.domain.latest_crawled.latest_crawled_repository import LatestCrawledRep
 from src.domain.shared.village import Village
 from src.domain.shared.village_cast import VillageCast
 from src.domain.shared.village_repository import VillageRepository
+from src.utc_date import UtcDate
 
 config = get_config()
 
@@ -32,4 +32,4 @@ class Crawler:
         self._village_repository.addAll(villages)
 
     def _crawl(self, village_number: int) -> Village:
-        return Village(1, datetime.now(), "aaa", 10, VillageCast.A, [])
+        return Village(1, UtcDate.now(), "aaa", 10, VillageCast.A, [])

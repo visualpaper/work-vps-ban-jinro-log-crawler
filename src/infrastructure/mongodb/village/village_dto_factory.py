@@ -11,7 +11,7 @@ class VillageDtoFactory:
         dto: VillageDto = VillageDto(
             _id=ObjectId(),
             villageNumber=village.village_number,
-            endDate=village.end_date,
+            endDate=village.end_date.to_epoch_seconds(),
             name=village.name,
             people=village.people,
             cast=village.cast.value,

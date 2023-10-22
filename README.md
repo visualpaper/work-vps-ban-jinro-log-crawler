@@ -279,6 +279,10 @@ venv.bak/
 - poetry add pymongo  
   (参照) https://pymongo.readthedocs.io/en/stable/index.html
 
+- poetry add --group dev mongomock  
+  ※ mongodb mock 用に入れている。  
+  (参照) https://docs.mongoengine.org/index.html
+
 ```
 MongoDB Atlas (https://www.mongodb.com/atlas/database) 無料枠を利用
 
@@ -288,6 +292,8 @@ DB Cluster: ban-jinro-log-cluster
 DB: ban-jinro-log-db
 Collection
   - tw_latest_crawled
+    ※ 事前に 1 レコードを登録し、1 レコードがある前提で動作させている。
+    > {"_id":{"$oid":"6534bebb95d323df1bfafaee"},"value":{"$numberInt":"2"}}
 ```
 
 <br><br>

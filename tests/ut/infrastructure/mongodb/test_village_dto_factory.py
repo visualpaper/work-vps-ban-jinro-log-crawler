@@ -1,8 +1,8 @@
 import pytest
 
-from src.domain.shared.village_position import VillagePosition
 from src.domain.shared.village import Village, VillageBans
 from src.domain.shared.village_cast import VillageCast
+from src.domain.shared.village_position import VillagePosition
 from src.infrastructure.mongodb.village.village_dto import VillageDto
 from src.infrastructure.mongodb.village.village_dto_factory import VillageDtoFactory
 from src.utc_date import UtcDate

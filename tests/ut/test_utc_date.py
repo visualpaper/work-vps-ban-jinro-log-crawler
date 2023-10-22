@@ -1,4 +1,4 @@
-from utc_date import UtcDate
+from src.utc_date import UtcDate
 
 
 class TestUtcDate:

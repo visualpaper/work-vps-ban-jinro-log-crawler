@@ -9,7 +9,7 @@ from src.domain.shared.village_cast import VillageCast
 from src.domain.shared.village_position import VillagePosition
 from src.infrastructure.mongodb.village.village_dao import VillageDao
 from src.infrastructure.mongodb.village.village_dto import VillageBansDto, VillageDto
-from utc_date import UtcDate
+from src.utc_date import UtcDate
 
 
 class TestVillageDao:

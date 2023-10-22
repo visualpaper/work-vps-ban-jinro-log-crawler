@@ -3,7 +3,7 @@ from typing import List
 
 from src.domain.shared.village_cast import VillageCast
 from src.domain.shared.village_position import VillagePosition
-from utc_date import UtcDate
+from src.utc_date import UtcDate
 
 
 @dataclass(frozen=True)

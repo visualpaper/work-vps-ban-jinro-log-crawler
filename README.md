@@ -279,6 +279,10 @@ venv.bak/
 - poetry add pymongo  
   (参照) https://pymongo.readthedocs.io/en/stable/index.html
 
+- poetry add --group dev mongomock  
+  ※ mongodb mock 用に入れている。  
+  (参照) https://docs.mongoengine.org/index.html
+
 ```
 MongoDB Atlas (https://www.mongodb.com/atlas/database) 無料枠を利用
 

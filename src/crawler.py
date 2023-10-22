@@ -1,3 +1,4 @@
+import time
 from typing import List
 
 from injector import inject
@@ -5,9 +6,8 @@ from injector import inject
 from src.config.config import get_config
 from src.domain.latest_crawled.latest_crawled_repository import LatestCrawledRepository
 from src.domain.shared.village import Village
-from src.domain.shared.village_cast import VillageCast
+from src.domain.shared.village_reader import VillageReader
 from src.domain.shared.village_repository import VillageRepository
-from src.utc_date import UtcDate
 
 config = get_config()
 
@@ -18,18 +18,41 @@ class Crawler:
         self,
         latest_crawled_repository: LatestCrawledRepository,
         village_repository: VillageRepository,
+        village_reader: VillageReader,
     ):
         self._latest_crawled_repository = latest_crawled_repository
         self._village_repository = village_repository
+        self._village_reader = village_reader
 
     def crawl(self):
         villages: List[Village] = []
+        crawled_village_number: int
 
+        # 最終読み込み村番号を取得する。
         latest_crawle_village_number = self._latest_crawled_repository.read()
+        crawled_village_number = latest_crawle_village_number
+
+        # 指定件数分、読み込みを行う。
         for i in range(config.read_count_limit):
-            villages.append(self._crawl(latest_crawle_village_number + (i + 1)))
+            village_number = latest_crawle_village_number + (i + 1)
+            village = self._village_reader.read(village_number)
 
-        self._village_repository.addAll(villages)
+            # まだ村が存在しない場合、そこで中断する。
+            if village is None:
+                break
 
-    def _crawl(self, village_number: int) -> Village:
-        return Village(1, UtcDate.now(), "aaa", 10, VillageCast.A, [])
+            # 村は存在するが、通報対象者がいない場合は次に進める。
+            crawled_village_number = village_number
+            if len(village.bans) == 0:
+                continue
+
+            villages.append(village)
+            time.sleep(config.read_wait_seconds)
+
+        # 前回 crawl 後より、新規に通報対象者がいる村があれば、登録を行う。
+        if len(villages) != 0:
+            self._village_repository.addAll(villages)
+
+        # 最終読み込み村番号を更新する必要があれば、更新を行う。
+        if crawled_village_number > latest_crawle_village_number:
+            self._latest_crawled_repository.update(crawled_village_number)

@@ -40,7 +40,6 @@ class BanJinroLogCrawlerModule(Module):
         binder.bind(LatestCrawledRepository, to=LatestCrawledDbRepository)
 
         # - MongoDB
-        db = get_database()
-        binder.bind(VillageDao, lambda: VillageDao(db))
+        binder.bind(VillageDao, lambda: VillageDao(get_database()))
         binder.bind(VillageDtoFactory)
-        binder.bind(LatestCrawledDao, lambda: LatestCrawledDao(db))
+        binder.bind(LatestCrawledDao, lambda: LatestCrawledDao(get_database()))

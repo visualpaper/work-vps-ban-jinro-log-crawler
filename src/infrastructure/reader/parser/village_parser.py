@@ -10,23 +10,15 @@ class VillageParser:
         soup = BeautifulSoup(
             content,
             'html.parser',
-            from_encoding='euc-jp',
-            exclude_encodings=[
-                "iso8859_16",
-                "iso-8859-5",
-                "mac_latin2",
-                "windows-1252",
-                "iso8859_13",
-                "windows-1250",
-                "mac_iceland",
-                "euc_jis_2004",
-                "mac_roman",
-                "iso8859_4",
-                "gb18030",
-                "ptcp154",
-                "maccyrillic",
-                "mac_greek",
-            ],
+            from_encoding='utf-8',
+            exclude_encodings=[],
         )
-        print(soup.original_encoding)
+        # もし、original が想定 encoding と異なる場合(今回は utf-8) に、
+        # exclude_encodings に以下を設定することで解決できるケースがある。
+        # ※ 指定しなければ response ヘッダの encoding が利用され、うまくパースできないことがあり、
+        #    その解決策としてこのような方法をとっている。
+        # print(soup.original_encoding)
+        #
+        # そのまま html 出力したい場合は以下で可能
+        #print(str(soup))
         return None

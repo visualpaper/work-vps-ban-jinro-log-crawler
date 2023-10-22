@@ -19,4 +19,14 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_config() -> Settings:
-    return Settings()
+    settings = Settings()
+
+    # env が読み込まれない事象が起きた場合は、キャッシュが問題なので
+    # git clone し直して以下を行えば治る。
+    # > poetry config virtualenvs.in-project true  
+    # > poetry install
+    # > poetry run task start とか
+    #
+    # 確認用に以下で読み込み結果を出力できる。
+    # print(settings.model_dump())
+    return settings

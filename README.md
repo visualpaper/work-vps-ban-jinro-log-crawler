@@ -28,6 +28,14 @@ authors = ["visualpaper"]
 - poetry config virtualenvs.in-project true  
   ※ vscode との連携都合、仮想環境作成場所をフォルダ直下にします。
 
+<b> env が読み込まれない事象が起きた場合は、キャッシュが問題なので clone し直して以下を実施すれば治る </b>
+
+```
+poetry config virtualenvs.in-project true  
+poetry install
+poetry run task start など
+```
+
 <br>
 
 #### Formatter

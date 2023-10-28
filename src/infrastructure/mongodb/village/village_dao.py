@@ -12,5 +12,8 @@ class VillageDao:
     def __init__(self, db: Database):
         self._collection: Collection = db["td_village"]
 
+    def insert(self, dto: VillageDto) -> None:
+        self._collection.insert_one(dto)
+
     def insertAll(self, dtos: List[VillageDto]) -> None:
         self._collection.insert_many(dtos)

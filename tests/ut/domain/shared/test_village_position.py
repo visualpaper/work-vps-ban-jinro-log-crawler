@@ -22,10 +22,10 @@ class TestVillagePosition:
             ("妖狐", VillagePosition.FOX),
             ("背徳者", VillagePosition.APOSTATE),
             ("占い師", VillagePosition.SEER),
-            ("霊能者", VillagePosition.MEDIUM),
+            ("霊能", VillagePosition.MEDIUM),
             ("狩人", VillagePosition.HUNTER),
             ("猫又", VillagePosition.CAT),
-            ("共有者", VillagePosition.MASON),
+            ("共有", VillagePosition.MASON),
             ("村人", VillagePosition.VILLAGER),
         ],
     )

@@ -19,9 +19,11 @@ class UtcDate:
     def from_timezone_string(
         cls, value: str, format: str, zoneinfo: ZoneInfo = ZoneInfo("UTC")
     ):
+        # strptime では local_timezone が利用されるので、timezone のみ replace した後、
+        # utc timezone の日付に変換を行っている。
         d: datetime = (
             datetime.strptime(value, format)
-            .astimezone(zoneinfo)
+            .replace(tzinfo=zoneinfo)
             .astimezone(ZoneInfo("UTC"))
         )
 

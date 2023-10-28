@@ -23,7 +23,7 @@ def get_config() -> Settings:
 
     # env が読み込まれない事象が起きた場合は、キャッシュが問題なので
     # git clone し直して以下を行えば治る。
-    # > poetry config virtualenvs.in-project true  
+    # > poetry config virtualenvs.in-project true
     # > poetry install
     # > poetry run task start とか
     #

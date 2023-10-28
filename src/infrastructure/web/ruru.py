@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests
 from injector import inject
 
@@ -34,12 +36,15 @@ class RuruApi:
     def __init__(self, factory: RuruApiUrlFactory):
         self._factory = factory
 
-    def read(self, village_number: int) -> bytes:
+    def read(self, village_number: int) -> Optional[bytes]:
         res = requests.get(
             self._factory.create(village_number),
             timeout=10,
             proxies={"https": config.proxy},
         )
+
+        if res.status_code == 404:
+            return None
 
         try:
             res.raise_for_status()

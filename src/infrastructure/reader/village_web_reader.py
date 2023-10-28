@@ -23,6 +23,8 @@ class VillageWebReader(VillageReader):
     def read(self, village_number: int) -> Optional[Village]:
         try:
             content = self._api.read(village_number)
+            if content is None:
+                return None
 
             return self._parser.parse(content)
         except ApiRequestException as ex:

@@ -125,7 +125,7 @@ class VillageParser:
         try:
             return VillagePosition.of(value.replace("　", ""))
         except IllegalArgumentsException as ex:
-            raise IllegalArgumentsException() from ex
+            raise IllegalArgumentsException(value) from ex
 
     def _to_players(self, soup: Tag) -> List[VillagePlayer]:
         iconsmall_element = soup.find("table", class_="iconsmall")
@@ -139,7 +139,7 @@ class VillageParser:
             if self._is_player(name_element)
         ]
 
-        regex = re.compile("oc.+")
+        regex = re.compile("^oc.+")
         val_elements = iconsmall_element.find_all("span", {"class": regex})
         if not val_elements or isinstance(val_elements, NavigableString):
             raise IllegalArgumentsException()

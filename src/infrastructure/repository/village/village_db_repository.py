@@ -15,6 +15,10 @@ class VillageDbRepository(VillageRepository):
         self._dao = dao
         self._factory = factory
 
+    def add(self, village: Village) -> None:
+        dto: VillageDto = self._factory.create(village)
+        self._dao.insert(dto)
+
     def addAll(self, villages: List[Village]) -> None:
         dtos: List[VillageDto] = [self._factory.create(village) for village in villages]
         self._dao.insertAll(dtos)

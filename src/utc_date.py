@@ -19,7 +19,11 @@ class UtcDate:
     def from_timezone_string(
         cls, value: str, format: str, zoneinfo: ZoneInfo = ZoneInfo("UTC")
     ):
-        d: datetime = datetime.strptime(value, format).astimezone(zoneinfo)
+        d: datetime = (
+            datetime.strptime(value, format)
+            .astimezone(zoneinfo)
+            .astimezone(ZoneInfo("UTC"))
+        )
 
         return cls.from_epoch_seconds(int(d.timestamp()))
 

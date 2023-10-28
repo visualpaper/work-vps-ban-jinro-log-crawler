@@ -10,10 +10,10 @@ class VillagePosition(Enum):
     FOX = "妖狐"
     APOSTATE = "背徳者"
     SEER = "占い師"
-    MEDIUM = "霊能者"
+    MEDIUM = "霊能"
     HUNTER = "狩人"
     CAT = "猫又"
-    MASON = "共有者"
+    MASON = "共有"
     VILLAGER = "村人"
 
     @classmethod

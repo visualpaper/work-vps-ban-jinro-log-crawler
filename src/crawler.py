@@ -24,6 +24,21 @@ class Crawler:
         self._village_repository = village_repository
         self._village_reader = village_reader
 
+    def _is_save(self, village: Village) -> bool:
+        # 通報対象者がいない場合は記録しない。
+        if len(village.bans) == 0:
+            return False
+
+        # 通報対象者がいるが、開始前の場合は記録しない。
+        if any(ban.position is None for ban in village.bans):
+            return False
+
+        # 通報対象者がおり、開始済みだが、8 人未満の場合は記録しない。
+        if village.people < 8:
+            return False
+
+        return True
+
     def crawl(self):
         villages: List[Village] = []
         crawled_village_number: int
@@ -34,6 +49,8 @@ class Crawler:
 
         # 指定件数分、読み込みを行う。
         for i in range(config.read_count_limit):
+            time.sleep(config.read_wait_seconds)
+
             village_number = latest_crawle_village_number + (i + 1)
             village = self._village_reader.read(village_number)
 
@@ -41,13 +58,12 @@ class Crawler:
             if village is None:
                 break
 
-            # 村は存在するが、通報対象者がいない場合は次に進める。
+            # 村が存在する場合、最終読み込み村番号を更新する。
             crawled_village_number = village_number
-            if len(village.bans) == 0:
-                continue
 
-            villages.append(village)
-            time.sleep(config.read_wait_seconds)
+            # 記録しない条件に合致しない場合のみ、記録する。
+            if self._is_save(village):
+                villages.append(village)
 
         # 前回 crawl 後より、新規に通報対象者がいる村があれば、登録を行う。
         if len(villages) != 0:

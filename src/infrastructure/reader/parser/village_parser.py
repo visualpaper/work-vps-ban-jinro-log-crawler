@@ -45,8 +45,9 @@ class VillageParser:
 
         village_number: int = self._to_village_number(d11_element_text)
         players: List[VillagePlayer] = self._to_players(soup)
-        bans_player_names: List[str] = []
-        bans_player_names = self._to_bans_player_names_old(soup, village_number)
+        bans_player_names: List[str] = self._to_bans_player_names_old(
+            soup, village_number
+        )
 
         return Village(
             village_number,
@@ -107,16 +108,16 @@ class VillageParser:
         return VillageCast.of(cast[0])
 
     def _is_player(self, name_element: Tag) -> bool:
-        result = re.findall("【", name_element.get_text())
+        find = re.findall("【[^】]+】", name_element.get_text())
 
-        return len(result) == 1
+        return len(find) >= 1
 
     def _to_player(self, name_element: Tag) -> tuple[str, str]:
-        splited = name_element.get_text().split("【")
-        if len(splited) != 2:
-            raise IllegalArgumentsException()
+        find = re.findall("【[^】]+】", name_element.get_text())
+        trip = find.pop()
+        name = name_element.get_text().replace(trip, "")
 
-        return splited[0], "【" + splited[1]
+        return name, trip
 
     def _to_position(self, value: str) -> Optional[VillagePosition]:
         if value == "決定前":
@@ -142,7 +143,8 @@ class VillageParser:
         regex = re.compile("^oc.+")
         val_elements = iconsmall_element.find_all("span", {"class": regex})
         if not val_elements or isinstance(val_elements, NavigableString):
-            raise IllegalArgumentsException()
+            # 開始前で、かつ、昔の村番号の場合 0 人があり得るため空で返している。
+            return []
 
         positions = [
             self._to_position(val_element.get_text(strip=True))
@@ -197,14 +199,12 @@ class VillageParser:
             # 通報対象者かどうかの判断は Trip でなく player 名で実施しか判断できない。
             # そのため、もし、同名称のものがあると誤った結果となってしまう可能性があるため、
             # そのような場合は ban 者はいないと見做す。
-            players = [
-                player for player in players if player.same_bame(bans_player_name)
-            ]
-            if len(players) == 1:
-                if players[0].position is None:
+            hits = [player for player in players if player.same_bame(bans_player_name)]
+            if len(hits) == 1:
+                if hits[0].position is None:
                     raise IllegalArgumentsException()
 
-                result.append(VillageBans(players[0].position, players[0].trip))
+                result.append(VillageBans(hits[0].position, hits[0].trip))
 
         return result
 

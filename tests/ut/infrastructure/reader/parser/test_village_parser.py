@@ -29,6 +29,32 @@ class TestVillageParser:
         assert actual.cast == VillageCast.A
         assert actual.bans == []
 
+    def test_100359(self):
+        data = mockdata("ut/infrastructure/reader/parser/100359.html")
+
+        actual = self._parser.parse(data.encode("utf-8"))
+        assert actual.village_number == 100359
+        assert actual.name == "完全身内"
+        assert (
+            actual.end_date.iso_format(ZoneInfo("Asia/Tokyo")) == "2013-03-20T20:40:26Z"
+        )
+        assert actual.people == 0
+        assert actual.cast == VillageCast.B
+        assert actual.bans == []
+
+    def test_100829(self):
+        data = mockdata("ut/infrastructure/reader/parser/100829.html")
+
+        actual = self._parser.parse(data.encode("utf-8"))
+        assert actual.village_number == 100829
+        assert actual.name == "【嫌儲】真夏の夜の淫夢"
+        assert (
+            actual.end_date.iso_format(ZoneInfo("Asia/Tokyo")) == "2013-03-22T02:01:29Z"
+        )
+        assert actual.people == 16
+        assert actual.cast == VillageCast.B
+        assert len(actual.bans) == 2
+
     def test_118145(self):
         data = mockdata("ut/infrastructure/reader/parser/118145.html")
 

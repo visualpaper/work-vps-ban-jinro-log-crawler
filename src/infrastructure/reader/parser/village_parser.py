@@ -142,14 +142,17 @@ class VillageParser:
         regex = re.compile("^oc.+")
         val_elements = iconsmall_element.find_all("span", {"class": regex})
         if not val_elements or isinstance(val_elements, NavigableString):
-            raise IllegalArgumentsException()
+            # 開始前の廃村時に一人もいないケースがあり得るため、そういった村は無視する。
+            #            raise IllegalArgumentsException()
+            return []
 
         positions = [
             self._to_position(val_element.get_text(strip=True))
             for val_element in val_elements
         ]
-        if len(players) != len(positions):
-            raise IllegalArgumentsException()
+# 【】が名前やトリップにある場合に問題になるため、そういったプレイヤーは無視する。
+#        if len(players) != len(positions):
+#            raise IllegalArgumentsException()
 
         result = []
         for i, player in enumerate(players):
@@ -197,14 +200,14 @@ class VillageParser:
             # 通報対象者かどうかの判断は Trip でなく player 名で実施しか判断できない。
             # そのため、もし、同名称のものがあると誤った結果となってしまう可能性があるため、
             # そのような場合は ban 者はいないと見做す。
-            players = [
+            target = [
                 player for player in players if player.same_bame(bans_player_name)
             ]
-            if len(players) == 1:
-                if players[0].position is None:
+            if len(target) == 1:
+                if target[0].position is None:
                     raise IllegalArgumentsException()
 
-                result.append(VillageBans(players[0].position, players[0].trip))
+                result.append(VillageBans(target[0].position, target[0].trip))
 
         return result
 

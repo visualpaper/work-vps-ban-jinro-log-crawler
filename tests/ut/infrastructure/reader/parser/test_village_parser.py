@@ -163,6 +163,49 @@ class TestVillageParser:
         assert actual.bans[0].position == VillagePosition.VILLAGER
         assert actual.bans[0].trip == "【熊坂学◆xFAcMSgLgT】"
 
+    def test_423501(self):
+        data = mockdata("ut/infrastructure/reader/parser/423501.html")
+
+        actual = self._parser.parse(data.encode("utf-8"))
+        assert actual.village_number == 423501
+        assert actual.name == "誤字裁判所"
+        assert (
+            actual.end_date.iso_format(ZoneInfo("Asia/Tokyo")) == "2017-06-19T00:46:31Z"
+        )
+        assert actual.people == 7
+        assert actual.cast == VillageCast.Z
+        assert len(actual.bans) == 0
+
+    def test_427085(self):
+        data = mockdata("ut/infrastructure/reader/parser/427085.html")
+
+        actual = self._parser.parse(data.encode("utf-8"))
+        assert actual.village_number == 427085
+        assert actual.name == "１２Ｂ"
+        assert (
+            actual.end_date.iso_format(ZoneInfo("Asia/Tokyo")) == "2017-07-20T22:10:58Z"
+        )
+        assert actual.people == 0
+        assert actual.cast == VillageCast.B
+        assert len(actual.bans) == 0
+
+    def test_444041(self):
+        data = mockdata("ut/infrastructure/reader/parser/444041.html")
+
+        actual = self._parser.parse(data.encode("utf-8"))
+        assert actual.village_number == 444041
+        assert actual.name == "ダンガンロンパRP18A猫"
+        assert (
+            actual.end_date.iso_format(ZoneInfo("Asia/Tokyo")) == "2018-01-03T22:54:51Z"
+        )
+        assert actual.people == 18
+        assert actual.cast == VillageCast.A
+        assert len(actual.bans) == 2
+        assert actual.bans[0].position == VillagePosition.WOLF
+        assert actual.bans[0].trip == "【MtM◆KuhGKNxpvI】"
+        assert actual.bans[1].position == VillagePosition.WOLF
+        assert actual.bans[1].trip == "【rest◆P0Ivk67fHl】"
+
     def test_487441(self):
         data = mockdata("ut/infrastructure/reader/parser/487441.html")
 

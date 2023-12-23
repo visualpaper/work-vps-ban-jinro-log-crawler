@@ -150,9 +150,9 @@ class VillageParser:
             self._to_position(val_element.get_text(strip=True))
             for val_element in val_elements
         ]
-# 【】が名前やトリップにある場合に問題になるため、そういったプレイヤーは無視する。
-#        if len(players) != len(positions):
-#            raise IllegalArgumentsException()
+        # 【】が名前やトリップにある場合に問題になるため、そういったプレイヤーは無視する。
+        #        if len(players) != len(positions):
+        #            raise IllegalArgumentsException()
 
         result = []
         for i, player in enumerate(players):

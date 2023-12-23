@@ -49,17 +49,16 @@ class Crawler:
             time.sleep(config.read_wait_seconds)
 
             village_number = latest_crawle_village_number + (i + 1)
-            if village_number == 462775 or village_number == 462230 or village_number == 462144:
-                continue
+            # 読み飛ばしたいものがあれば読み飛ばす。
+            # if village_number == 477722:
+            #     continue
 
             logger.info("read start - {0}".format(village_number))
             village = self._village_reader.read(village_number)
 
             # まだ村が存在しない場合、そこで中断する。
             if village is None:
-                continue
-                # 稼働前の一時対処
-                # break
+                break
 
             # 記録しない条件に合致しない場合のみ、記録する。
             if self._is_save(village):
